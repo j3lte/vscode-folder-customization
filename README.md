@@ -1,4 +1,9 @@
-# Folder Customization
+<div style="padding: 0 25px 0">
+<div align="center"><img src="https://github.com/j3lte/vscode-folder-customization/raw/main/resources/images/icon.png" alt="Logo" height="128" /></div><h1 align="center">Folder Customization</h1><h3 align="center" style="border:none">Set a color, text badge, emoji badge or tooltip for any folder in your workspace.</h2>
+<br/>
+<div align="center">
+
+</div>
 
 This extension allows you to customize your folders in your workspace settings, by setting a color, badge (text or emoji) and tooltip. This is visible in the Explorer view and the tabs.
 
