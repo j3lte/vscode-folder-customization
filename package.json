@@ -2755,6 +2755,7 @@
     "clean": "rimraf dist",
     "generate-icons": "ts-node ./scripts/generate_icons.ts",
     "package": "npx @vscode/vsce package -o folder-customization.vsix",
+    "publish": "npx @vscode/vsce publish",
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write ."
   },
