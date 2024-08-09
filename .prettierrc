@@ -1,0 +1,17 @@
+{
+  "printWidth": 120,
+  "singleQuote": false,
+  "importOrder": [
+    "^node:(.*)$",
+    "^vscode(.*)$",
+    "<THIRD_PARTY_MODULES>",
+    "^@/types(.*)$",
+    "^@/utils/(.*)$",
+    "^@/tools/(.*)$",
+    "^@/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": false,
+  "importOrderSortSpecifiers": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"]
+}

@@ -1,0 +1,7 @@
+scripts/
+dist/
+.vscode
+assets/
+esbuild.js
+vscode-test.mjs
+README.md

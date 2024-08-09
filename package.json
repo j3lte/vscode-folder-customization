@@ -1,0 +1,2783 @@
+{
+  "name": "folder-customization",
+  "displayName": "Folder Customization",
+  "publisher": "j3lte",
+  "description": "Customize your folder and subfolders based on a specific path",
+  "version": "0.1.0",
+  "license": "MIT",
+  "icon": "resources/images/icon.png",
+  "galleryBanner": {
+    "color": "#510405",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/j3lte/vscode-folder-customization"
+  },
+  "bugs": {
+    "url": "https://github.com/j3lte/vscode-folder-customization/issues"
+  },
+  "homepage": "https://github.com/j3lte/vscode-folder-customization/blob/main/README.md",
+  "author": {
+    "name": "j3lte"
+  },
+  "engines": {
+    "vscode": "^1.92.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "folder",
+    "customization",
+    "color",
+    "badge",
+    "tooltip"
+  ],
+  "pricing": "Free",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Folder Customization",
+      "properties": {
+        "folder-customization.folders": {
+          "type": "array",
+          "description": "Custom folders",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Path to the folder"
+              },
+              "badge": {
+                "type": "string",
+                "description": "Badge for the folder",
+                "maxLength": 2
+              },
+              "color": {
+                "type": "string",
+                "description": "Color for the folder"
+              },
+              "tooltip": {
+                "type": "string",
+                "description": "Tooltip for the folder"
+              }
+            },
+            "required": [
+              "path"
+            ]
+          },
+          "default": []
+        }
+      }
+    },
+    "submenus": [
+      {
+        "id": "folder-customization.subMenu",
+        "label": "Folder Customization"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "explorerResourceIsFolder == true",
+          "group": "folderCustomization",
+          "submenu": "folder-customization.subMenu"
+        }
+      ],
+      "folder-customization.subMenu": [
+        {
+          "command": "folder-customization.setColor",
+          "group": "folderCustomization1@1"
+        },
+        {
+          "command": "folder-customization.clearColor",
+          "group": "folderCustomization1@2"
+        },
+        {
+          "command": "folder-customization.setTextBadge",
+          "group": "folderCustomization2@1"
+        },
+        {
+          "command": "folder-customization.setEmojiBadge",
+          "group": "folderCustomization2@2"
+        },
+        {
+          "command": "folder-customization.clearBadge",
+          "group": "folderCustomization2@3"
+        },
+        {
+          "command": "folder-customization.setTooltip",
+          "group": "folderCustomization3@1"
+        },
+        {
+          "command": "folder-customization.clearTooltip",
+          "group": "folderCustomization3@2"
+        },
+        {
+          "command": "folder-customization.clearCustomization",
+          "group": "folderCustomization4@1"
+        },
+        {
+          "command": "folder-customization.resetWorkspace",
+          "group": "folderCustomization5@1"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "folder-customization.setColor",
+        "title": "Set Folder Color",
+        "category": "Folder Customization"
+      },
+      {
+        "command": "folder-customization.clearColor",
+        "title": "Clear Folder Color",
+        "category": "Folder Customization"
+      },
+      {
+        "command": "folder-customization.setTextBadge",
+        "title": "Set Folder Text Badge",
+        "category": "Folder Customization"
+      },
+      {
+        "command": "folder-customization.setEmojiBadge",
+        "title": "Set Folder Emoji Badge",
+        "category": "Folder Customization"
+      },
+      {
+        "command": "folder-customization.clearBadge",
+        "title": "Clear Folder Badge",
+        "category": "Folder Customization"
+      },
+      {
+        "command": "folder-customization.setTooltip",
+        "title": "Set Folder Tooltip",
+        "category": "Folder Customization"
+      },
+      {
+        "command": "folder-customization.clearTooltip",
+        "title": "Clear Folder Tooltip",
+        "category": "Folder Customization"
+      },
+      {
+        "command": "folder-customization.clearCustomization",
+        "title": "Clear All Folder Customizations",
+        "category": "Folder Customization"
+      },
+      {
+        "command": "folder-customization.resetWorkspace",
+        "title": "Reset Workspace",
+        "category": "Folder Customization"
+      }
+    ],
+    "colors": [
+      {
+        "id": "foldercustomization.AnsiColor0",
+        "defaults": {
+          "dark": "#000000",
+          "light": "#000000",
+          "highContrast": "#000000",
+          "highContrastLight": "#000000"
+        },
+        "description": "Black"
+      },
+      {
+        "id": "foldercustomization.AnsiColor1",
+        "defaults": {
+          "dark": "#800000",
+          "light": "#800000",
+          "highContrast": "#800000",
+          "highContrastLight": "#800000"
+        },
+        "description": "Maroon"
+      },
+      {
+        "id": "foldercustomization.AnsiColor2",
+        "defaults": {
+          "dark": "#008000",
+          "light": "#008000",
+          "highContrast": "#008000",
+          "highContrastLight": "#008000"
+        },
+        "description": "Green"
+      },
+      {
+        "id": "foldercustomization.AnsiColor3",
+        "defaults": {
+          "dark": "#808000",
+          "light": "#808000",
+          "highContrast": "#808000",
+          "highContrastLight": "#808000"
+        },
+        "description": "Olive"
+      },
+      {
+        "id": "foldercustomization.AnsiColor4",
+        "defaults": {
+          "dark": "#000080",
+          "light": "#000080",
+          "highContrast": "#000080",
+          "highContrastLight": "#000080"
+        },
+        "description": "Navy"
+      },
+      {
+        "id": "foldercustomization.AnsiColor5",
+        "defaults": {
+          "dark": "#800080",
+          "light": "#800080",
+          "highContrast": "#800080",
+          "highContrastLight": "#800080"
+        },
+        "description": "Purple"
+      },
+      {
+        "id": "foldercustomization.AnsiColor6",
+        "defaults": {
+          "dark": "#008080",
+          "light": "#008080",
+          "highContrast": "#008080",
+          "highContrastLight": "#008080"
+        },
+        "description": "Teal"
+      },
+      {
+        "id": "foldercustomization.AnsiColor7",
+        "defaults": {
+          "dark": "#c0c0c0",
+          "light": "#c0c0c0",
+          "highContrast": "#c0c0c0",
+          "highContrastLight": "#c0c0c0"
+        },
+        "description": "Silver"
+      },
+      {
+        "id": "foldercustomization.AnsiColor8",
+        "defaults": {
+          "dark": "#808080",
+          "light": "#808080",
+          "highContrast": "#808080",
+          "highContrastLight": "#808080"
+        },
+        "description": "Grey"
+      },
+      {
+        "id": "foldercustomization.AnsiColor9",
+        "defaults": {
+          "dark": "#ff0000",
+          "light": "#ff0000",
+          "highContrast": "#ff0000",
+          "highContrastLight": "#ff0000"
+        },
+        "description": "Red"
+      },
+      {
+        "id": "foldercustomization.AnsiColor10",
+        "defaults": {
+          "dark": "#00ff00",
+          "light": "#00ff00",
+          "highContrast": "#00ff00",
+          "highContrastLight": "#00ff00"
+        },
+        "description": "Lime"
+      },
+      {
+        "id": "foldercustomization.AnsiColor11",
+        "defaults": {
+          "dark": "#ffff00",
+          "light": "#ffff00",
+          "highContrast": "#ffff00",
+          "highContrastLight": "#ffff00"
+        },
+        "description": "Yellow"
+      },
+      {
+        "id": "foldercustomization.AnsiColor12",
+        "defaults": {
+          "dark": "#0000ff",
+          "light": "#0000ff",
+          "highContrast": "#0000ff",
+          "highContrastLight": "#0000ff"
+        },
+        "description": "Blue"
+      },
+      {
+        "id": "foldercustomization.AnsiColor13",
+        "defaults": {
+          "dark": "#ff00ff",
+          "light": "#ff00ff",
+          "highContrast": "#ff00ff",
+          "highContrastLight": "#ff00ff"
+        },
+        "description": "Fuchsia"
+      },
+      {
+        "id": "foldercustomization.AnsiColor14",
+        "defaults": {
+          "dark": "#00ffff",
+          "light": "#00ffff",
+          "highContrast": "#00ffff",
+          "highContrastLight": "#00ffff"
+        },
+        "description": "Aqua"
+      },
+      {
+        "id": "foldercustomization.AnsiColor15",
+        "defaults": {
+          "dark": "#ffffff",
+          "light": "#ffffff",
+          "highContrast": "#ffffff",
+          "highContrastLight": "#ffffff"
+        },
+        "description": "White"
+      },
+      {
+        "id": "foldercustomization.AnsiColor16",
+        "defaults": {
+          "dark": "#000000",
+          "light": "#000000",
+          "highContrast": "#000000",
+          "highContrastLight": "#000000"
+        },
+        "description": "Grey0"
+      },
+      {
+        "id": "foldercustomization.AnsiColor17",
+        "defaults": {
+          "dark": "#00005f",
+          "light": "#00005f",
+          "highContrast": "#00005f",
+          "highContrastLight": "#00005f"
+        },
+        "description": "NavyBlue"
+      },
+      {
+        "id": "foldercustomization.AnsiColor18",
+        "defaults": {
+          "dark": "#000087",
+          "light": "#000087",
+          "highContrast": "#000087",
+          "highContrastLight": "#000087"
+        },
+        "description": "DarkBlue"
+      },
+      {
+        "id": "foldercustomization.AnsiColor19",
+        "defaults": {
+          "dark": "#0000af",
+          "light": "#0000af",
+          "highContrast": "#0000af",
+          "highContrastLight": "#0000af"
+        },
+        "description": "Blue3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor20",
+        "defaults": {
+          "dark": "#0000d7",
+          "light": "#0000d7",
+          "highContrast": "#0000d7",
+          "highContrastLight": "#0000d7"
+        },
+        "description": "Blue3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor21",
+        "defaults": {
+          "dark": "#0000ff",
+          "light": "#0000ff",
+          "highContrast": "#0000ff",
+          "highContrastLight": "#0000ff"
+        },
+        "description": "Blue1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor22",
+        "defaults": {
+          "dark": "#005f00",
+          "light": "#005f00",
+          "highContrast": "#005f00",
+          "highContrastLight": "#005f00"
+        },
+        "description": "DarkGreen"
+      },
+      {
+        "id": "foldercustomization.AnsiColor23",
+        "defaults": {
+          "dark": "#005f5f",
+          "light": "#005f5f",
+          "highContrast": "#005f5f",
+          "highContrastLight": "#005f5f"
+        },
+        "description": "DeepSkyBlue4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor24",
+        "defaults": {
+          "dark": "#005f87",
+          "light": "#005f87",
+          "highContrast": "#005f87",
+          "highContrastLight": "#005f87"
+        },
+        "description": "DeepSkyBlue4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor25",
+        "defaults": {
+          "dark": "#005faf",
+          "light": "#005faf",
+          "highContrast": "#005faf",
+          "highContrastLight": "#005faf"
+        },
+        "description": "DeepSkyBlue4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor26",
+        "defaults": {
+          "dark": "#005fd7",
+          "light": "#005fd7",
+          "highContrast": "#005fd7",
+          "highContrastLight": "#005fd7"
+        },
+        "description": "DodgerBlue3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor27",
+        "defaults": {
+          "dark": "#005fff",
+          "light": "#005fff",
+          "highContrast": "#005fff",
+          "highContrastLight": "#005fff"
+        },
+        "description": "DodgerBlue2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor28",
+        "defaults": {
+          "dark": "#008700",
+          "light": "#008700",
+          "highContrast": "#008700",
+          "highContrastLight": "#008700"
+        },
+        "description": "Green4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor29",
+        "defaults": {
+          "dark": "#00875f",
+          "light": "#00875f",
+          "highContrast": "#00875f",
+          "highContrastLight": "#00875f"
+        },
+        "description": "SpringGreen4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor30",
+        "defaults": {
+          "dark": "#008787",
+          "light": "#008787",
+          "highContrast": "#008787",
+          "highContrastLight": "#008787"
+        },
+        "description": "Turquoise4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor31",
+        "defaults": {
+          "dark": "#0087af",
+          "light": "#0087af",
+          "highContrast": "#0087af",
+          "highContrastLight": "#0087af"
+        },
+        "description": "DeepSkyBlue3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor32",
+        "defaults": {
+          "dark": "#0087d7",
+          "light": "#0087d7",
+          "highContrast": "#0087d7",
+          "highContrastLight": "#0087d7"
+        },
+        "description": "DeepSkyBlue3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor33",
+        "defaults": {
+          "dark": "#0087ff",
+          "light": "#0087ff",
+          "highContrast": "#0087ff",
+          "highContrastLight": "#0087ff"
+        },
+        "description": "DodgerBlue1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor34",
+        "defaults": {
+          "dark": "#00af00",
+          "light": "#00af00",
+          "highContrast": "#00af00",
+          "highContrastLight": "#00af00"
+        },
+        "description": "Green3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor35",
+        "defaults": {
+          "dark": "#00af5f",
+          "light": "#00af5f",
+          "highContrast": "#00af5f",
+          "highContrastLight": "#00af5f"
+        },
+        "description": "SpringGreen3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor36",
+        "defaults": {
+          "dark": "#00af87",
+          "light": "#00af87",
+          "highContrast": "#00af87",
+          "highContrastLight": "#00af87"
+        },
+        "description": "DarkCyan"
+      },
+      {
+        "id": "foldercustomization.AnsiColor37",
+        "defaults": {
+          "dark": "#00afaf",
+          "light": "#00afaf",
+          "highContrast": "#00afaf",
+          "highContrastLight": "#00afaf"
+        },
+        "description": "LightSeaGreen"
+      },
+      {
+        "id": "foldercustomization.AnsiColor38",
+        "defaults": {
+          "dark": "#00afd7",
+          "light": "#00afd7",
+          "highContrast": "#00afd7",
+          "highContrastLight": "#00afd7"
+        },
+        "description": "DeepSkyBlue2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor39",
+        "defaults": {
+          "dark": "#00afff",
+          "light": "#00afff",
+          "highContrast": "#00afff",
+          "highContrastLight": "#00afff"
+        },
+        "description": "DeepSkyBlue1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor40",
+        "defaults": {
+          "dark": "#00d700",
+          "light": "#00d700",
+          "highContrast": "#00d700",
+          "highContrastLight": "#00d700"
+        },
+        "description": "Green3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor41",
+        "defaults": {
+          "dark": "#00d75f",
+          "light": "#00d75f",
+          "highContrast": "#00d75f",
+          "highContrastLight": "#00d75f"
+        },
+        "description": "SpringGreen3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor42",
+        "defaults": {
+          "dark": "#00d787",
+          "light": "#00d787",
+          "highContrast": "#00d787",
+          "highContrastLight": "#00d787"
+        },
+        "description": "SpringGreen2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor43",
+        "defaults": {
+          "dark": "#00d7af",
+          "light": "#00d7af",
+          "highContrast": "#00d7af",
+          "highContrastLight": "#00d7af"
+        },
+        "description": "Cyan3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor44",
+        "defaults": {
+          "dark": "#00d7d7",
+          "light": "#00d7d7",
+          "highContrast": "#00d7d7",
+          "highContrastLight": "#00d7d7"
+        },
+        "description": "DarkTurquoise"
+      },
+      {
+        "id": "foldercustomization.AnsiColor45",
+        "defaults": {
+          "dark": "#00d7ff",
+          "light": "#00d7ff",
+          "highContrast": "#00d7ff",
+          "highContrastLight": "#00d7ff"
+        },
+        "description": "Turquoise2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor46",
+        "defaults": {
+          "dark": "#00ff00",
+          "light": "#00ff00",
+          "highContrast": "#00ff00",
+          "highContrastLight": "#00ff00"
+        },
+        "description": "Green1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor47",
+        "defaults": {
+          "dark": "#00ff5f",
+          "light": "#00ff5f",
+          "highContrast": "#00ff5f",
+          "highContrastLight": "#00ff5f"
+        },
+        "description": "SpringGreen2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor48",
+        "defaults": {
+          "dark": "#00ff87",
+          "light": "#00ff87",
+          "highContrast": "#00ff87",
+          "highContrastLight": "#00ff87"
+        },
+        "description": "SpringGreen1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor49",
+        "defaults": {
+          "dark": "#00ffaf",
+          "light": "#00ffaf",
+          "highContrast": "#00ffaf",
+          "highContrastLight": "#00ffaf"
+        },
+        "description": "MediumSpringGreen"
+      },
+      {
+        "id": "foldercustomization.AnsiColor50",
+        "defaults": {
+          "dark": "#00ffd7",
+          "light": "#00ffd7",
+          "highContrast": "#00ffd7",
+          "highContrastLight": "#00ffd7"
+        },
+        "description": "Cyan2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor51",
+        "defaults": {
+          "dark": "#00ffff",
+          "light": "#00ffff",
+          "highContrast": "#00ffff",
+          "highContrastLight": "#00ffff"
+        },
+        "description": "Cyan1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor52",
+        "defaults": {
+          "dark": "#5f0000",
+          "light": "#5f0000",
+          "highContrast": "#5f0000",
+          "highContrastLight": "#5f0000"
+        },
+        "description": "DarkRed"
+      },
+      {
+        "id": "foldercustomization.AnsiColor53",
+        "defaults": {
+          "dark": "#5f005f",
+          "light": "#5f005f",
+          "highContrast": "#5f005f",
+          "highContrastLight": "#5f005f"
+        },
+        "description": "DeepPink4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor54",
+        "defaults": {
+          "dark": "#5f0087",
+          "light": "#5f0087",
+          "highContrast": "#5f0087",
+          "highContrastLight": "#5f0087"
+        },
+        "description": "Purple4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor55",
+        "defaults": {
+          "dark": "#5f00af",
+          "light": "#5f00af",
+          "highContrast": "#5f00af",
+          "highContrastLight": "#5f00af"
+        },
+        "description": "Purple4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor56",
+        "defaults": {
+          "dark": "#5f00d7",
+          "light": "#5f00d7",
+          "highContrast": "#5f00d7",
+          "highContrastLight": "#5f00d7"
+        },
+        "description": "Purple3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor57",
+        "defaults": {
+          "dark": "#5f00ff",
+          "light": "#5f00ff",
+          "highContrast": "#5f00ff",
+          "highContrastLight": "#5f00ff"
+        },
+        "description": "BlueViolet"
+      },
+      {
+        "id": "foldercustomization.AnsiColor58",
+        "defaults": {
+          "dark": "#5f5f00",
+          "light": "#5f5f00",
+          "highContrast": "#5f5f00",
+          "highContrastLight": "#5f5f00"
+        },
+        "description": "Orange4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor59",
+        "defaults": {
+          "dark": "#5f5f5f",
+          "light": "#5f5f5f",
+          "highContrast": "#5f5f5f",
+          "highContrastLight": "#5f5f5f"
+        },
+        "description": "Grey37"
+      },
+      {
+        "id": "foldercustomization.AnsiColor60",
+        "defaults": {
+          "dark": "#5f5f87",
+          "light": "#5f5f87",
+          "highContrast": "#5f5f87",
+          "highContrastLight": "#5f5f87"
+        },
+        "description": "MediumPurple4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor61",
+        "defaults": {
+          "dark": "#5f5faf",
+          "light": "#5f5faf",
+          "highContrast": "#5f5faf",
+          "highContrastLight": "#5f5faf"
+        },
+        "description": "SlateBlue3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor62",
+        "defaults": {
+          "dark": "#5f5fd7",
+          "light": "#5f5fd7",
+          "highContrast": "#5f5fd7",
+          "highContrastLight": "#5f5fd7"
+        },
+        "description": "SlateBlue3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor63",
+        "defaults": {
+          "dark": "#5f5fff",
+          "light": "#5f5fff",
+          "highContrast": "#5f5fff",
+          "highContrastLight": "#5f5fff"
+        },
+        "description": "RoyalBlue1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor64",
+        "defaults": {
+          "dark": "#5f8700",
+          "light": "#5f8700",
+          "highContrast": "#5f8700",
+          "highContrastLight": "#5f8700"
+        },
+        "description": "Chartreuse4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor65",
+        "defaults": {
+          "dark": "#5f875f",
+          "light": "#5f875f",
+          "highContrast": "#5f875f",
+          "highContrastLight": "#5f875f"
+        },
+        "description": "DarkSeaGreen4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor66",
+        "defaults": {
+          "dark": "#5f8787",
+          "light": "#5f8787",
+          "highContrast": "#5f8787",
+          "highContrastLight": "#5f8787"
+        },
+        "description": "PaleTurquoise4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor67",
+        "defaults": {
+          "dark": "#5f87af",
+          "light": "#5f87af",
+          "highContrast": "#5f87af",
+          "highContrastLight": "#5f87af"
+        },
+        "description": "SteelBlue"
+      },
+      {
+        "id": "foldercustomization.AnsiColor68",
+        "defaults": {
+          "dark": "#5f87d7",
+          "light": "#5f87d7",
+          "highContrast": "#5f87d7",
+          "highContrastLight": "#5f87d7"
+        },
+        "description": "SteelBlue3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor69",
+        "defaults": {
+          "dark": "#5f87ff",
+          "light": "#5f87ff",
+          "highContrast": "#5f87ff",
+          "highContrastLight": "#5f87ff"
+        },
+        "description": "CornflowerBlue"
+      },
+      {
+        "id": "foldercustomization.AnsiColor70",
+        "defaults": {
+          "dark": "#5faf00",
+          "light": "#5faf00",
+          "highContrast": "#5faf00",
+          "highContrastLight": "#5faf00"
+        },
+        "description": "Chartreuse3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor71",
+        "defaults": {
+          "dark": "#5faf5f",
+          "light": "#5faf5f",
+          "highContrast": "#5faf5f",
+          "highContrastLight": "#5faf5f"
+        },
+        "description": "DarkSeaGreen4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor72",
+        "defaults": {
+          "dark": "#5faf87",
+          "light": "#5faf87",
+          "highContrast": "#5faf87",
+          "highContrastLight": "#5faf87"
+        },
+        "description": "CadetBlue"
+      },
+      {
+        "id": "foldercustomization.AnsiColor73",
+        "defaults": {
+          "dark": "#5fafaf",
+          "light": "#5fafaf",
+          "highContrast": "#5fafaf",
+          "highContrastLight": "#5fafaf"
+        },
+        "description": "CadetBlue"
+      },
+      {
+        "id": "foldercustomization.AnsiColor74",
+        "defaults": {
+          "dark": "#5fafd7",
+          "light": "#5fafd7",
+          "highContrast": "#5fafd7",
+          "highContrastLight": "#5fafd7"
+        },
+        "description": "SkyBlue3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor75",
+        "defaults": {
+          "dark": "#5fafff",
+          "light": "#5fafff",
+          "highContrast": "#5fafff",
+          "highContrastLight": "#5fafff"
+        },
+        "description": "SteelBlue1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor76",
+        "defaults": {
+          "dark": "#5fd700",
+          "light": "#5fd700",
+          "highContrast": "#5fd700",
+          "highContrastLight": "#5fd700"
+        },
+        "description": "Chartreuse3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor77",
+        "defaults": {
+          "dark": "#5fd75f",
+          "light": "#5fd75f",
+          "highContrast": "#5fd75f",
+          "highContrastLight": "#5fd75f"
+        },
+        "description": "PaleGreen3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor78",
+        "defaults": {
+          "dark": "#5fd787",
+          "light": "#5fd787",
+          "highContrast": "#5fd787",
+          "highContrastLight": "#5fd787"
+        },
+        "description": "SeaGreen3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor79",
+        "defaults": {
+          "dark": "#5fd7af",
+          "light": "#5fd7af",
+          "highContrast": "#5fd7af",
+          "highContrastLight": "#5fd7af"
+        },
+        "description": "Aquamarine3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor80",
+        "defaults": {
+          "dark": "#5fd7d7",
+          "light": "#5fd7d7",
+          "highContrast": "#5fd7d7",
+          "highContrastLight": "#5fd7d7"
+        },
+        "description": "MediumTurquoise"
+      },
+      {
+        "id": "foldercustomization.AnsiColor81",
+        "defaults": {
+          "dark": "#5fd7ff",
+          "light": "#5fd7ff",
+          "highContrast": "#5fd7ff",
+          "highContrastLight": "#5fd7ff"
+        },
+        "description": "SteelBlue1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor82",
+        "defaults": {
+          "dark": "#5fff00",
+          "light": "#5fff00",
+          "highContrast": "#5fff00",
+          "highContrastLight": "#5fff00"
+        },
+        "description": "Chartreuse2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor83",
+        "defaults": {
+          "dark": "#5fff5f",
+          "light": "#5fff5f",
+          "highContrast": "#5fff5f",
+          "highContrastLight": "#5fff5f"
+        },
+        "description": "SeaGreen2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor84",
+        "defaults": {
+          "dark": "#5fff87",
+          "light": "#5fff87",
+          "highContrast": "#5fff87",
+          "highContrastLight": "#5fff87"
+        },
+        "description": "SeaGreen1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor85",
+        "defaults": {
+          "dark": "#5fffaf",
+          "light": "#5fffaf",
+          "highContrast": "#5fffaf",
+          "highContrastLight": "#5fffaf"
+        },
+        "description": "SeaGreen1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor86",
+        "defaults": {
+          "dark": "#5fffd7",
+          "light": "#5fffd7",
+          "highContrast": "#5fffd7",
+          "highContrastLight": "#5fffd7"
+        },
+        "description": "Aquamarine1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor87",
+        "defaults": {
+          "dark": "#5fffff",
+          "light": "#5fffff",
+          "highContrast": "#5fffff",
+          "highContrastLight": "#5fffff"
+        },
+        "description": "DarkSlateGray2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor88",
+        "defaults": {
+          "dark": "#870000",
+          "light": "#870000",
+          "highContrast": "#870000",
+          "highContrastLight": "#870000"
+        },
+        "description": "DarkRed"
+      },
+      {
+        "id": "foldercustomization.AnsiColor89",
+        "defaults": {
+          "dark": "#87005f",
+          "light": "#87005f",
+          "highContrast": "#87005f",
+          "highContrastLight": "#87005f"
+        },
+        "description": "DeepPink4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor90",
+        "defaults": {
+          "dark": "#870087",
+          "light": "#870087",
+          "highContrast": "#870087",
+          "highContrastLight": "#870087"
+        },
+        "description": "DarkMagenta"
+      },
+      {
+        "id": "foldercustomization.AnsiColor91",
+        "defaults": {
+          "dark": "#8700af",
+          "light": "#8700af",
+          "highContrast": "#8700af",
+          "highContrastLight": "#8700af"
+        },
+        "description": "DarkMagenta"
+      },
+      {
+        "id": "foldercustomization.AnsiColor92",
+        "defaults": {
+          "dark": "#8700d7",
+          "light": "#8700d7",
+          "highContrast": "#8700d7",
+          "highContrastLight": "#8700d7"
+        },
+        "description": "DarkViolet"
+      },
+      {
+        "id": "foldercustomization.AnsiColor93",
+        "defaults": {
+          "dark": "#8700ff",
+          "light": "#8700ff",
+          "highContrast": "#8700ff",
+          "highContrastLight": "#8700ff"
+        },
+        "description": "Purple"
+      },
+      {
+        "id": "foldercustomization.AnsiColor94",
+        "defaults": {
+          "dark": "#875f00",
+          "light": "#875f00",
+          "highContrast": "#875f00",
+          "highContrastLight": "#875f00"
+        },
+        "description": "Orange4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor95",
+        "defaults": {
+          "dark": "#875f5f",
+          "light": "#875f5f",
+          "highContrast": "#875f5f",
+          "highContrastLight": "#875f5f"
+        },
+        "description": "LightPink4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor96",
+        "defaults": {
+          "dark": "#875f87",
+          "light": "#875f87",
+          "highContrast": "#875f87",
+          "highContrastLight": "#875f87"
+        },
+        "description": "Plum4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor97",
+        "defaults": {
+          "dark": "#875faf",
+          "light": "#875faf",
+          "highContrast": "#875faf",
+          "highContrastLight": "#875faf"
+        },
+        "description": "MediumPurple3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor98",
+        "defaults": {
+          "dark": "#875fd7",
+          "light": "#875fd7",
+          "highContrast": "#875fd7",
+          "highContrastLight": "#875fd7"
+        },
+        "description": "MediumPurple3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor99",
+        "defaults": {
+          "dark": "#875fff",
+          "light": "#875fff",
+          "highContrast": "#875fff",
+          "highContrastLight": "#875fff"
+        },
+        "description": "SlateBlue1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor100",
+        "defaults": {
+          "dark": "#878700",
+          "light": "#878700",
+          "highContrast": "#878700",
+          "highContrastLight": "#878700"
+        },
+        "description": "Yellow4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor101",
+        "defaults": {
+          "dark": "#87875f",
+          "light": "#87875f",
+          "highContrast": "#87875f",
+          "highContrastLight": "#87875f"
+        },
+        "description": "Wheat4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor102",
+        "defaults": {
+          "dark": "#878787",
+          "light": "#878787",
+          "highContrast": "#878787",
+          "highContrastLight": "#878787"
+        },
+        "description": "Grey53"
+      },
+      {
+        "id": "foldercustomization.AnsiColor103",
+        "defaults": {
+          "dark": "#8787af",
+          "light": "#8787af",
+          "highContrast": "#8787af",
+          "highContrastLight": "#8787af"
+        },
+        "description": "LightSlateGrey"
+      },
+      {
+        "id": "foldercustomization.AnsiColor104",
+        "defaults": {
+          "dark": "#8787d7",
+          "light": "#8787d7",
+          "highContrast": "#8787d7",
+          "highContrastLight": "#8787d7"
+        },
+        "description": "MediumPurple"
+      },
+      {
+        "id": "foldercustomization.AnsiColor105",
+        "defaults": {
+          "dark": "#8787ff",
+          "light": "#8787ff",
+          "highContrast": "#8787ff",
+          "highContrastLight": "#8787ff"
+        },
+        "description": "LightSlateBlue"
+      },
+      {
+        "id": "foldercustomization.AnsiColor106",
+        "defaults": {
+          "dark": "#87af00",
+          "light": "#87af00",
+          "highContrast": "#87af00",
+          "highContrastLight": "#87af00"
+        },
+        "description": "Yellow4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor107",
+        "defaults": {
+          "dark": "#87af5f",
+          "light": "#87af5f",
+          "highContrast": "#87af5f",
+          "highContrastLight": "#87af5f"
+        },
+        "description": "DarkOliveGreen3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor108",
+        "defaults": {
+          "dark": "#87af87",
+          "light": "#87af87",
+          "highContrast": "#87af87",
+          "highContrastLight": "#87af87"
+        },
+        "description": "DarkSeaGreen"
+      },
+      {
+        "id": "foldercustomization.AnsiColor109",
+        "defaults": {
+          "dark": "#87afaf",
+          "light": "#87afaf",
+          "highContrast": "#87afaf",
+          "highContrastLight": "#87afaf"
+        },
+        "description": "LightSkyBlue3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor110",
+        "defaults": {
+          "dark": "#87afd7",
+          "light": "#87afd7",
+          "highContrast": "#87afd7",
+          "highContrastLight": "#87afd7"
+        },
+        "description": "LightSkyBlue3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor111",
+        "defaults": {
+          "dark": "#87afff",
+          "light": "#87afff",
+          "highContrast": "#87afff",
+          "highContrastLight": "#87afff"
+        },
+        "description": "SkyBlue2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor112",
+        "defaults": {
+          "dark": "#87d700",
+          "light": "#87d700",
+          "highContrast": "#87d700",
+          "highContrastLight": "#87d700"
+        },
+        "description": "Chartreuse2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor113",
+        "defaults": {
+          "dark": "#87d75f",
+          "light": "#87d75f",
+          "highContrast": "#87d75f",
+          "highContrastLight": "#87d75f"
+        },
+        "description": "DarkOliveGreen3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor114",
+        "defaults": {
+          "dark": "#87d787",
+          "light": "#87d787",
+          "highContrast": "#87d787",
+          "highContrastLight": "#87d787"
+        },
+        "description": "PaleGreen3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor115",
+        "defaults": {
+          "dark": "#87d7af",
+          "light": "#87d7af",
+          "highContrast": "#87d7af",
+          "highContrastLight": "#87d7af"
+        },
+        "description": "DarkSeaGreen3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor116",
+        "defaults": {
+          "dark": "#87d7d7",
+          "light": "#87d7d7",
+          "highContrast": "#87d7d7",
+          "highContrastLight": "#87d7d7"
+        },
+        "description": "DarkSlateGray3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor117",
+        "defaults": {
+          "dark": "#87d7ff",
+          "light": "#87d7ff",
+          "highContrast": "#87d7ff",
+          "highContrastLight": "#87d7ff"
+        },
+        "description": "SkyBlue1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor118",
+        "defaults": {
+          "dark": "#87ff00",
+          "light": "#87ff00",
+          "highContrast": "#87ff00",
+          "highContrastLight": "#87ff00"
+        },
+        "description": "Chartreuse1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor119",
+        "defaults": {
+          "dark": "#87ff5f",
+          "light": "#87ff5f",
+          "highContrast": "#87ff5f",
+          "highContrastLight": "#87ff5f"
+        },
+        "description": "LightGreen"
+      },
+      {
+        "id": "foldercustomization.AnsiColor120",
+        "defaults": {
+          "dark": "#87ff87",
+          "light": "#87ff87",
+          "highContrast": "#87ff87",
+          "highContrastLight": "#87ff87"
+        },
+        "description": "LightGreen"
+      },
+      {
+        "id": "foldercustomization.AnsiColor121",
+        "defaults": {
+          "dark": "#87ffaf",
+          "light": "#87ffaf",
+          "highContrast": "#87ffaf",
+          "highContrastLight": "#87ffaf"
+        },
+        "description": "PaleGreen1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor122",
+        "defaults": {
+          "dark": "#87ffd7",
+          "light": "#87ffd7",
+          "highContrast": "#87ffd7",
+          "highContrastLight": "#87ffd7"
+        },
+        "description": "Aquamarine1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor123",
+        "defaults": {
+          "dark": "#87ffff",
+          "light": "#87ffff",
+          "highContrast": "#87ffff",
+          "highContrastLight": "#87ffff"
+        },
+        "description": "DarkSlateGray1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor124",
+        "defaults": {
+          "dark": "#af0000",
+          "light": "#af0000",
+          "highContrast": "#af0000",
+          "highContrastLight": "#af0000"
+        },
+        "description": "Red3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor125",
+        "defaults": {
+          "dark": "#af005f",
+          "light": "#af005f",
+          "highContrast": "#af005f",
+          "highContrastLight": "#af005f"
+        },
+        "description": "DeepPink4"
+      },
+      {
+        "id": "foldercustomization.AnsiColor126",
+        "defaults": {
+          "dark": "#af0087",
+          "light": "#af0087",
+          "highContrast": "#af0087",
+          "highContrastLight": "#af0087"
+        },
+        "description": "MediumVioletRed"
+      },
+      {
+        "id": "foldercustomization.AnsiColor127",
+        "defaults": {
+          "dark": "#af00af",
+          "light": "#af00af",
+          "highContrast": "#af00af",
+          "highContrastLight": "#af00af"
+        },
+        "description": "Magenta3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor128",
+        "defaults": {
+          "dark": "#af00d7",
+          "light": "#af00d7",
+          "highContrast": "#af00d7",
+          "highContrastLight": "#af00d7"
+        },
+        "description": "DarkViolet"
+      },
+      {
+        "id": "foldercustomization.AnsiColor129",
+        "defaults": {
+          "dark": "#af00ff",
+          "light": "#af00ff",
+          "highContrast": "#af00ff",
+          "highContrastLight": "#af00ff"
+        },
+        "description": "Purple"
+      },
+      {
+        "id": "foldercustomization.AnsiColor130",
+        "defaults": {
+          "dark": "#af5f00",
+          "light": "#af5f00",
+          "highContrast": "#af5f00",
+          "highContrastLight": "#af5f00"
+        },
+        "description": "DarkOrange3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor131",
+        "defaults": {
+          "dark": "#af5f5f",
+          "light": "#af5f5f",
+          "highContrast": "#af5f5f",
+          "highContrastLight": "#af5f5f"
+        },
+        "description": "IndianRed"
+      },
+      {
+        "id": "foldercustomization.AnsiColor132",
+        "defaults": {
+          "dark": "#af5f87",
+          "light": "#af5f87",
+          "highContrast": "#af5f87",
+          "highContrastLight": "#af5f87"
+        },
+        "description": "HotPink3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor133",
+        "defaults": {
+          "dark": "#af5faf",
+          "light": "#af5faf",
+          "highContrast": "#af5faf",
+          "highContrastLight": "#af5faf"
+        },
+        "description": "MediumOrchid3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor134",
+        "defaults": {
+          "dark": "#af5fd7",
+          "light": "#af5fd7",
+          "highContrast": "#af5fd7",
+          "highContrastLight": "#af5fd7"
+        },
+        "description": "MediumOrchid"
+      },
+      {
+        "id": "foldercustomization.AnsiColor135",
+        "defaults": {
+          "dark": "#af5fff",
+          "light": "#af5fff",
+          "highContrast": "#af5fff",
+          "highContrastLight": "#af5fff"
+        },
+        "description": "MediumPurple2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor136",
+        "defaults": {
+          "dark": "#af8700",
+          "light": "#af8700",
+          "highContrast": "#af8700",
+          "highContrastLight": "#af8700"
+        },
+        "description": "DarkGoldenrod"
+      },
+      {
+        "id": "foldercustomization.AnsiColor137",
+        "defaults": {
+          "dark": "#af875f",
+          "light": "#af875f",
+          "highContrast": "#af875f",
+          "highContrastLight": "#af875f"
+        },
+        "description": "LightSalmon3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor138",
+        "defaults": {
+          "dark": "#af8787",
+          "light": "#af8787",
+          "highContrast": "#af8787",
+          "highContrastLight": "#af8787"
+        },
+        "description": "RosyBrown"
+      },
+      {
+        "id": "foldercustomization.AnsiColor139",
+        "defaults": {
+          "dark": "#af87af",
+          "light": "#af87af",
+          "highContrast": "#af87af",
+          "highContrastLight": "#af87af"
+        },
+        "description": "Grey63"
+      },
+      {
+        "id": "foldercustomization.AnsiColor140",
+        "defaults": {
+          "dark": "#af87d7",
+          "light": "#af87d7",
+          "highContrast": "#af87d7",
+          "highContrastLight": "#af87d7"
+        },
+        "description": "MediumPurple2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor141",
+        "defaults": {
+          "dark": "#af87ff",
+          "light": "#af87ff",
+          "highContrast": "#af87ff",
+          "highContrastLight": "#af87ff"
+        },
+        "description": "MediumPurple1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor142",
+        "defaults": {
+          "dark": "#afaf00",
+          "light": "#afaf00",
+          "highContrast": "#afaf00",
+          "highContrastLight": "#afaf00"
+        },
+        "description": "Gold3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor143",
+        "defaults": {
+          "dark": "#afaf5f",
+          "light": "#afaf5f",
+          "highContrast": "#afaf5f",
+          "highContrastLight": "#afaf5f"
+        },
+        "description": "DarkKhaki"
+      },
+      {
+        "id": "foldercustomization.AnsiColor144",
+        "defaults": {
+          "dark": "#afaf87",
+          "light": "#afaf87",
+          "highContrast": "#afaf87",
+          "highContrastLight": "#afaf87"
+        },
+        "description": "NavajoWhite3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor145",
+        "defaults": {
+          "dark": "#afafaf",
+          "light": "#afafaf",
+          "highContrast": "#afafaf",
+          "highContrastLight": "#afafaf"
+        },
+        "description": "Grey69"
+      },
+      {
+        "id": "foldercustomization.AnsiColor146",
+        "defaults": {
+          "dark": "#afafd7",
+          "light": "#afafd7",
+          "highContrast": "#afafd7",
+          "highContrastLight": "#afafd7"
+        },
+        "description": "LightSteelBlue3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor147",
+        "defaults": {
+          "dark": "#afafff",
+          "light": "#afafff",
+          "highContrast": "#afafff",
+          "highContrastLight": "#afafff"
+        },
+        "description": "LightSteelBlue"
+      },
+      {
+        "id": "foldercustomization.AnsiColor148",
+        "defaults": {
+          "dark": "#afd700",
+          "light": "#afd700",
+          "highContrast": "#afd700",
+          "highContrastLight": "#afd700"
+        },
+        "description": "Yellow3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor149",
+        "defaults": {
+          "dark": "#afd75f",
+          "light": "#afd75f",
+          "highContrast": "#afd75f",
+          "highContrastLight": "#afd75f"
+        },
+        "description": "DarkOliveGreen3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor150",
+        "defaults": {
+          "dark": "#afd787",
+          "light": "#afd787",
+          "highContrast": "#afd787",
+          "highContrastLight": "#afd787"
+        },
+        "description": "DarkSeaGreen3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor151",
+        "defaults": {
+          "dark": "#afd7af",
+          "light": "#afd7af",
+          "highContrast": "#afd7af",
+          "highContrastLight": "#afd7af"
+        },
+        "description": "DarkSeaGreen2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor152",
+        "defaults": {
+          "dark": "#afd7d7",
+          "light": "#afd7d7",
+          "highContrast": "#afd7d7",
+          "highContrastLight": "#afd7d7"
+        },
+        "description": "LightCyan3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor153",
+        "defaults": {
+          "dark": "#afd7ff",
+          "light": "#afd7ff",
+          "highContrast": "#afd7ff",
+          "highContrastLight": "#afd7ff"
+        },
+        "description": "LightSkyBlue1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor154",
+        "defaults": {
+          "dark": "#afff00",
+          "light": "#afff00",
+          "highContrast": "#afff00",
+          "highContrastLight": "#afff00"
+        },
+        "description": "GreenYellow"
+      },
+      {
+        "id": "foldercustomization.AnsiColor155",
+        "defaults": {
+          "dark": "#afff5f",
+          "light": "#afff5f",
+          "highContrast": "#afff5f",
+          "highContrastLight": "#afff5f"
+        },
+        "description": "DarkOliveGreen2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor156",
+        "defaults": {
+          "dark": "#afff87",
+          "light": "#afff87",
+          "highContrast": "#afff87",
+          "highContrastLight": "#afff87"
+        },
+        "description": "PaleGreen1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor157",
+        "defaults": {
+          "dark": "#afffaf",
+          "light": "#afffaf",
+          "highContrast": "#afffaf",
+          "highContrastLight": "#afffaf"
+        },
+        "description": "DarkSeaGreen2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor158",
+        "defaults": {
+          "dark": "#afffd7",
+          "light": "#afffd7",
+          "highContrast": "#afffd7",
+          "highContrastLight": "#afffd7"
+        },
+        "description": "DarkSeaGreen1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor159",
+        "defaults": {
+          "dark": "#afffff",
+          "light": "#afffff",
+          "highContrast": "#afffff",
+          "highContrastLight": "#afffff"
+        },
+        "description": "PaleTurquoise1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor160",
+        "defaults": {
+          "dark": "#d70000",
+          "light": "#d70000",
+          "highContrast": "#d70000",
+          "highContrastLight": "#d70000"
+        },
+        "description": "Red3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor161",
+        "defaults": {
+          "dark": "#d7005f",
+          "light": "#d7005f",
+          "highContrast": "#d7005f",
+          "highContrastLight": "#d7005f"
+        },
+        "description": "DeepPink3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor162",
+        "defaults": {
+          "dark": "#d70087",
+          "light": "#d70087",
+          "highContrast": "#d70087",
+          "highContrastLight": "#d70087"
+        },
+        "description": "DeepPink3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor163",
+        "defaults": {
+          "dark": "#d700af",
+          "light": "#d700af",
+          "highContrast": "#d700af",
+          "highContrastLight": "#d700af"
+        },
+        "description": "Magenta3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor164",
+        "defaults": {
+          "dark": "#d700d7",
+          "light": "#d700d7",
+          "highContrast": "#d700d7",
+          "highContrastLight": "#d700d7"
+        },
+        "description": "Magenta3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor165",
+        "defaults": {
+          "dark": "#d700ff",
+          "light": "#d700ff",
+          "highContrast": "#d700ff",
+          "highContrastLight": "#d700ff"
+        },
+        "description": "Magenta2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor166",
+        "defaults": {
+          "dark": "#d75f00",
+          "light": "#d75f00",
+          "highContrast": "#d75f00",
+          "highContrastLight": "#d75f00"
+        },
+        "description": "DarkOrange3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor167",
+        "defaults": {
+          "dark": "#d75f5f",
+          "light": "#d75f5f",
+          "highContrast": "#d75f5f",
+          "highContrastLight": "#d75f5f"
+        },
+        "description": "IndianRed"
+      },
+      {
+        "id": "foldercustomization.AnsiColor168",
+        "defaults": {
+          "dark": "#d75f87",
+          "light": "#d75f87",
+          "highContrast": "#d75f87",
+          "highContrastLight": "#d75f87"
+        },
+        "description": "HotPink3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor169",
+        "defaults": {
+          "dark": "#d75faf",
+          "light": "#d75faf",
+          "highContrast": "#d75faf",
+          "highContrastLight": "#d75faf"
+        },
+        "description": "HotPink2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor170",
+        "defaults": {
+          "dark": "#d75fd7",
+          "light": "#d75fd7",
+          "highContrast": "#d75fd7",
+          "highContrastLight": "#d75fd7"
+        },
+        "description": "Orchid"
+      },
+      {
+        "id": "foldercustomization.AnsiColor171",
+        "defaults": {
+          "dark": "#d75fff",
+          "light": "#d75fff",
+          "highContrast": "#d75fff",
+          "highContrastLight": "#d75fff"
+        },
+        "description": "MediumOrchid1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor172",
+        "defaults": {
+          "dark": "#d78700",
+          "light": "#d78700",
+          "highContrast": "#d78700",
+          "highContrastLight": "#d78700"
+        },
+        "description": "Orange3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor173",
+        "defaults": {
+          "dark": "#d7875f",
+          "light": "#d7875f",
+          "highContrast": "#d7875f",
+          "highContrastLight": "#d7875f"
+        },
+        "description": "LightSalmon3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor174",
+        "defaults": {
+          "dark": "#d78787",
+          "light": "#d78787",
+          "highContrast": "#d78787",
+          "highContrastLight": "#d78787"
+        },
+        "description": "LightPink3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor175",
+        "defaults": {
+          "dark": "#d787af",
+          "light": "#d787af",
+          "highContrast": "#d787af",
+          "highContrastLight": "#d787af"
+        },
+        "description": "Pink3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor176",
+        "defaults": {
+          "dark": "#d787d7",
+          "light": "#d787d7",
+          "highContrast": "#d787d7",
+          "highContrastLight": "#d787d7"
+        },
+        "description": "Plum3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor177",
+        "defaults": {
+          "dark": "#d787ff",
+          "light": "#d787ff",
+          "highContrast": "#d787ff",
+          "highContrastLight": "#d787ff"
+        },
+        "description": "Violet"
+      },
+      {
+        "id": "foldercustomization.AnsiColor178",
+        "defaults": {
+          "dark": "#d7af00",
+          "light": "#d7af00",
+          "highContrast": "#d7af00",
+          "highContrastLight": "#d7af00"
+        },
+        "description": "Gold3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor179",
+        "defaults": {
+          "dark": "#d7af5f",
+          "light": "#d7af5f",
+          "highContrast": "#d7af5f",
+          "highContrastLight": "#d7af5f"
+        },
+        "description": "LightGoldenrod3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor180",
+        "defaults": {
+          "dark": "#d7af87",
+          "light": "#d7af87",
+          "highContrast": "#d7af87",
+          "highContrastLight": "#d7af87"
+        },
+        "description": "Tan"
+      },
+      {
+        "id": "foldercustomization.AnsiColor181",
+        "defaults": {
+          "dark": "#d7afaf",
+          "light": "#d7afaf",
+          "highContrast": "#d7afaf",
+          "highContrastLight": "#d7afaf"
+        },
+        "description": "MistyRose3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor182",
+        "defaults": {
+          "dark": "#d7afd7",
+          "light": "#d7afd7",
+          "highContrast": "#d7afd7",
+          "highContrastLight": "#d7afd7"
+        },
+        "description": "Thistle3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor183",
+        "defaults": {
+          "dark": "#d7afff",
+          "light": "#d7afff",
+          "highContrast": "#d7afff",
+          "highContrastLight": "#d7afff"
+        },
+        "description": "Plum2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor184",
+        "defaults": {
+          "dark": "#d7d700",
+          "light": "#d7d700",
+          "highContrast": "#d7d700",
+          "highContrastLight": "#d7d700"
+        },
+        "description": "Yellow3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor185",
+        "defaults": {
+          "dark": "#d7d75f",
+          "light": "#d7d75f",
+          "highContrast": "#d7d75f",
+          "highContrastLight": "#d7d75f"
+        },
+        "description": "Khaki3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor186",
+        "defaults": {
+          "dark": "#d7d787",
+          "light": "#d7d787",
+          "highContrast": "#d7d787",
+          "highContrastLight": "#d7d787"
+        },
+        "description": "LightGoldenrod2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor187",
+        "defaults": {
+          "dark": "#d7d7af",
+          "light": "#d7d7af",
+          "highContrast": "#d7d7af",
+          "highContrastLight": "#d7d7af"
+        },
+        "description": "LightYellow3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor188",
+        "defaults": {
+          "dark": "#d7d7d7",
+          "light": "#d7d7d7",
+          "highContrast": "#d7d7d7",
+          "highContrastLight": "#d7d7d7"
+        },
+        "description": "Grey84"
+      },
+      {
+        "id": "foldercustomization.AnsiColor189",
+        "defaults": {
+          "dark": "#d7d7ff",
+          "light": "#d7d7ff",
+          "highContrast": "#d7d7ff",
+          "highContrastLight": "#d7d7ff"
+        },
+        "description": "LightSteelBlue1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor190",
+        "defaults": {
+          "dark": "#d7ff00",
+          "light": "#d7ff00",
+          "highContrast": "#d7ff00",
+          "highContrastLight": "#d7ff00"
+        },
+        "description": "Yellow2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor191",
+        "defaults": {
+          "dark": "#d7ff5f",
+          "light": "#d7ff5f",
+          "highContrast": "#d7ff5f",
+          "highContrastLight": "#d7ff5f"
+        },
+        "description": "DarkOliveGreen1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor192",
+        "defaults": {
+          "dark": "#d7ff87",
+          "light": "#d7ff87",
+          "highContrast": "#d7ff87",
+          "highContrastLight": "#d7ff87"
+        },
+        "description": "DarkOliveGreen1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor193",
+        "defaults": {
+          "dark": "#d7ffaf",
+          "light": "#d7ffaf",
+          "highContrast": "#d7ffaf",
+          "highContrastLight": "#d7ffaf"
+        },
+        "description": "DarkSeaGreen1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor194",
+        "defaults": {
+          "dark": "#d7ffd7",
+          "light": "#d7ffd7",
+          "highContrast": "#d7ffd7",
+          "highContrastLight": "#d7ffd7"
+        },
+        "description": "Honeydew2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor195",
+        "defaults": {
+          "dark": "#d7ffff",
+          "light": "#d7ffff",
+          "highContrast": "#d7ffff",
+          "highContrastLight": "#d7ffff"
+        },
+        "description": "LightCyan1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor196",
+        "defaults": {
+          "dark": "#ff0000",
+          "light": "#ff0000",
+          "highContrast": "#ff0000",
+          "highContrastLight": "#ff0000"
+        },
+        "description": "Red1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor197",
+        "defaults": {
+          "dark": "#ff005f",
+          "light": "#ff005f",
+          "highContrast": "#ff005f",
+          "highContrastLight": "#ff005f"
+        },
+        "description": "DeepPink2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor198",
+        "defaults": {
+          "dark": "#ff0087",
+          "light": "#ff0087",
+          "highContrast": "#ff0087",
+          "highContrastLight": "#ff0087"
+        },
+        "description": "DeepPink1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor199",
+        "defaults": {
+          "dark": "#ff00af",
+          "light": "#ff00af",
+          "highContrast": "#ff00af",
+          "highContrastLight": "#ff00af"
+        },
+        "description": "DeepPink1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor200",
+        "defaults": {
+          "dark": "#ff00d7",
+          "light": "#ff00d7",
+          "highContrast": "#ff00d7",
+          "highContrastLight": "#ff00d7"
+        },
+        "description": "Magenta2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor201",
+        "defaults": {
+          "dark": "#ff00ff",
+          "light": "#ff00ff",
+          "highContrast": "#ff00ff",
+          "highContrastLight": "#ff00ff"
+        },
+        "description": "Magenta1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor202",
+        "defaults": {
+          "dark": "#ff5f00",
+          "light": "#ff5f00",
+          "highContrast": "#ff5f00",
+          "highContrastLight": "#ff5f00"
+        },
+        "description": "OrangeRed1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor203",
+        "defaults": {
+          "dark": "#ff5f5f",
+          "light": "#ff5f5f",
+          "highContrast": "#ff5f5f",
+          "highContrastLight": "#ff5f5f"
+        },
+        "description": "IndianRed1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor204",
+        "defaults": {
+          "dark": "#ff5f87",
+          "light": "#ff5f87",
+          "highContrast": "#ff5f87",
+          "highContrastLight": "#ff5f87"
+        },
+        "description": "IndianRed1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor205",
+        "defaults": {
+          "dark": "#ff5faf",
+          "light": "#ff5faf",
+          "highContrast": "#ff5faf",
+          "highContrastLight": "#ff5faf"
+        },
+        "description": "HotPink"
+      },
+      {
+        "id": "foldercustomization.AnsiColor206",
+        "defaults": {
+          "dark": "#ff5fd7",
+          "light": "#ff5fd7",
+          "highContrast": "#ff5fd7",
+          "highContrastLight": "#ff5fd7"
+        },
+        "description": "HotPink"
+      },
+      {
+        "id": "foldercustomization.AnsiColor207",
+        "defaults": {
+          "dark": "#ff5fff",
+          "light": "#ff5fff",
+          "highContrast": "#ff5fff",
+          "highContrastLight": "#ff5fff"
+        },
+        "description": "MediumOrchid1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor208",
+        "defaults": {
+          "dark": "#ff8700",
+          "light": "#ff8700",
+          "highContrast": "#ff8700",
+          "highContrastLight": "#ff8700"
+        },
+        "description": "DarkOrange"
+      },
+      {
+        "id": "foldercustomization.AnsiColor209",
+        "defaults": {
+          "dark": "#ff875f",
+          "light": "#ff875f",
+          "highContrast": "#ff875f",
+          "highContrastLight": "#ff875f"
+        },
+        "description": "Salmon1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor210",
+        "defaults": {
+          "dark": "#ff8787",
+          "light": "#ff8787",
+          "highContrast": "#ff8787",
+          "highContrastLight": "#ff8787"
+        },
+        "description": "LightCoral"
+      },
+      {
+        "id": "foldercustomization.AnsiColor211",
+        "defaults": {
+          "dark": "#ff87af",
+          "light": "#ff87af",
+          "highContrast": "#ff87af",
+          "highContrastLight": "#ff87af"
+        },
+        "description": "PaleVioletRed1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor212",
+        "defaults": {
+          "dark": "#ff87d7",
+          "light": "#ff87d7",
+          "highContrast": "#ff87d7",
+          "highContrastLight": "#ff87d7"
+        },
+        "description": "Orchid2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor213",
+        "defaults": {
+          "dark": "#ff87ff",
+          "light": "#ff87ff",
+          "highContrast": "#ff87ff",
+          "highContrastLight": "#ff87ff"
+        },
+        "description": "Orchid1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor214",
+        "defaults": {
+          "dark": "#ffaf00",
+          "light": "#ffaf00",
+          "highContrast": "#ffaf00",
+          "highContrastLight": "#ffaf00"
+        },
+        "description": "Orange1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor215",
+        "defaults": {
+          "dark": "#ffaf5f",
+          "light": "#ffaf5f",
+          "highContrast": "#ffaf5f",
+          "highContrastLight": "#ffaf5f"
+        },
+        "description": "SandyBrown"
+      },
+      {
+        "id": "foldercustomization.AnsiColor216",
+        "defaults": {
+          "dark": "#ffaf87",
+          "light": "#ffaf87",
+          "highContrast": "#ffaf87",
+          "highContrastLight": "#ffaf87"
+        },
+        "description": "LightSalmon1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor217",
+        "defaults": {
+          "dark": "#ffafaf",
+          "light": "#ffafaf",
+          "highContrast": "#ffafaf",
+          "highContrastLight": "#ffafaf"
+        },
+        "description": "LightPink1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor218",
+        "defaults": {
+          "dark": "#ffafd7",
+          "light": "#ffafd7",
+          "highContrast": "#ffafd7",
+          "highContrastLight": "#ffafd7"
+        },
+        "description": "Pink1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor219",
+        "defaults": {
+          "dark": "#ffafff",
+          "light": "#ffafff",
+          "highContrast": "#ffafff",
+          "highContrastLight": "#ffafff"
+        },
+        "description": "Plum1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor220",
+        "defaults": {
+          "dark": "#ffd700",
+          "light": "#ffd700",
+          "highContrast": "#ffd700",
+          "highContrastLight": "#ffd700"
+        },
+        "description": "Gold1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor221",
+        "defaults": {
+          "dark": "#ffd75f",
+          "light": "#ffd75f",
+          "highContrast": "#ffd75f",
+          "highContrastLight": "#ffd75f"
+        },
+        "description": "LightGoldenrod2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor222",
+        "defaults": {
+          "dark": "#ffd787",
+          "light": "#ffd787",
+          "highContrast": "#ffd787",
+          "highContrastLight": "#ffd787"
+        },
+        "description": "LightGoldenrod2"
+      },
+      {
+        "id": "foldercustomization.AnsiColor223",
+        "defaults": {
+          "dark": "#ffd7af",
+          "light": "#ffd7af",
+          "highContrast": "#ffd7af",
+          "highContrastLight": "#ffd7af"
+        },
+        "description": "NavajoWhite1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor224",
+        "defaults": {
+          "dark": "#ffd7d7",
+          "light": "#ffd7d7",
+          "highContrast": "#ffd7d7",
+          "highContrastLight": "#ffd7d7"
+        },
+        "description": "MistyRose1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor225",
+        "defaults": {
+          "dark": "#ffd7ff",
+          "light": "#ffd7ff",
+          "highContrast": "#ffd7ff",
+          "highContrastLight": "#ffd7ff"
+        },
+        "description": "Thistle1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor226",
+        "defaults": {
+          "dark": "#ffff00",
+          "light": "#ffff00",
+          "highContrast": "#ffff00",
+          "highContrastLight": "#ffff00"
+        },
+        "description": "Yellow1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor227",
+        "defaults": {
+          "dark": "#ffff5f",
+          "light": "#ffff5f",
+          "highContrast": "#ffff5f",
+          "highContrastLight": "#ffff5f"
+        },
+        "description": "LightGoldenrod1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor228",
+        "defaults": {
+          "dark": "#ffff87",
+          "light": "#ffff87",
+          "highContrast": "#ffff87",
+          "highContrastLight": "#ffff87"
+        },
+        "description": "Khaki1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor229",
+        "defaults": {
+          "dark": "#ffffaf",
+          "light": "#ffffaf",
+          "highContrast": "#ffffaf",
+          "highContrastLight": "#ffffaf"
+        },
+        "description": "Wheat1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor230",
+        "defaults": {
+          "dark": "#ffffd7",
+          "light": "#ffffd7",
+          "highContrast": "#ffffd7",
+          "highContrastLight": "#ffffd7"
+        },
+        "description": "Cornsilk1"
+      },
+      {
+        "id": "foldercustomization.AnsiColor231",
+        "defaults": {
+          "dark": "#ffffff",
+          "light": "#ffffff",
+          "highContrast": "#ffffff",
+          "highContrastLight": "#ffffff"
+        },
+        "description": "Grey100"
+      },
+      {
+        "id": "foldercustomization.AnsiColor232",
+        "defaults": {
+          "dark": "#080808",
+          "light": "#080808",
+          "highContrast": "#080808",
+          "highContrastLight": "#080808"
+        },
+        "description": "Grey3"
+      },
+      {
+        "id": "foldercustomization.AnsiColor233",
+        "defaults": {
+          "dark": "#121212",
+          "light": "#121212",
+          "highContrast": "#121212",
+          "highContrastLight": "#121212"
+        },
+        "description": "Grey7"
+      },
+      {
+        "id": "foldercustomization.AnsiColor234",
+        "defaults": {
+          "dark": "#1c1c1c",
+          "light": "#1c1c1c",
+          "highContrast": "#1c1c1c",
+          "highContrastLight": "#1c1c1c"
+        },
+        "description": "Grey11"
+      },
+      {
+        "id": "foldercustomization.AnsiColor235",
+        "defaults": {
+          "dark": "#262626",
+          "light": "#262626",
+          "highContrast": "#262626",
+          "highContrastLight": "#262626"
+        },
+        "description": "Grey15"
+      },
+      {
+        "id": "foldercustomization.AnsiColor236",
+        "defaults": {
+          "dark": "#303030",
+          "light": "#303030",
+          "highContrast": "#303030",
+          "highContrastLight": "#303030"
+        },
+        "description": "Grey19"
+      },
+      {
+        "id": "foldercustomization.AnsiColor237",
+        "defaults": {
+          "dark": "#3a3a3a",
+          "light": "#3a3a3a",
+          "highContrast": "#3a3a3a",
+          "highContrastLight": "#3a3a3a"
+        },
+        "description": "Grey23"
+      },
+      {
+        "id": "foldercustomization.AnsiColor238",
+        "defaults": {
+          "dark": "#444444",
+          "light": "#444444",
+          "highContrast": "#444444",
+          "highContrastLight": "#444444"
+        },
+        "description": "Grey27"
+      },
+      {
+        "id": "foldercustomization.AnsiColor239",
+        "defaults": {
+          "dark": "#4e4e4e",
+          "light": "#4e4e4e",
+          "highContrast": "#4e4e4e",
+          "highContrastLight": "#4e4e4e"
+        },
+        "description": "Grey30"
+      },
+      {
+        "id": "foldercustomization.AnsiColor240",
+        "defaults": {
+          "dark": "#585858",
+          "light": "#585858",
+          "highContrast": "#585858",
+          "highContrastLight": "#585858"
+        },
+        "description": "Grey35"
+      },
+      {
+        "id": "foldercustomization.AnsiColor241",
+        "defaults": {
+          "dark": "#626262",
+          "light": "#626262",
+          "highContrast": "#626262",
+          "highContrastLight": "#626262"
+        },
+        "description": "Grey39"
+      },
+      {
+        "id": "foldercustomization.AnsiColor242",
+        "defaults": {
+          "dark": "#6c6c6c",
+          "light": "#6c6c6c",
+          "highContrast": "#6c6c6c",
+          "highContrastLight": "#6c6c6c"
+        },
+        "description": "Grey42"
+      },
+      {
+        "id": "foldercustomization.AnsiColor243",
+        "defaults": {
+          "dark": "#767676",
+          "light": "#767676",
+          "highContrast": "#767676",
+          "highContrastLight": "#767676"
+        },
+        "description": "Grey46"
+      },
+      {
+        "id": "foldercustomization.AnsiColor244",
+        "defaults": {
+          "dark": "#808080",
+          "light": "#808080",
+          "highContrast": "#808080",
+          "highContrastLight": "#808080"
+        },
+        "description": "Grey50"
+      },
+      {
+        "id": "foldercustomization.AnsiColor245",
+        "defaults": {
+          "dark": "#8a8a8a",
+          "light": "#8a8a8a",
+          "highContrast": "#8a8a8a",
+          "highContrastLight": "#8a8a8a"
+        },
+        "description": "Grey54"
+      },
+      {
+        "id": "foldercustomization.AnsiColor246",
+        "defaults": {
+          "dark": "#949494",
+          "light": "#949494",
+          "highContrast": "#949494",
+          "highContrastLight": "#949494"
+        },
+        "description": "Grey58"
+      },
+      {
+        "id": "foldercustomization.AnsiColor247",
+        "defaults": {
+          "dark": "#9e9e9e",
+          "light": "#9e9e9e",
+          "highContrast": "#9e9e9e",
+          "highContrastLight": "#9e9e9e"
+        },
+        "description": "Grey62"
+      },
+      {
+        "id": "foldercustomization.AnsiColor248",
+        "defaults": {
+          "dark": "#a8a8a8",
+          "light": "#a8a8a8",
+          "highContrast": "#a8a8a8",
+          "highContrastLight": "#a8a8a8"
+        },
+        "description": "Grey66"
+      },
+      {
+        "id": "foldercustomization.AnsiColor249",
+        "defaults": {
+          "dark": "#b2b2b2",
+          "light": "#b2b2b2",
+          "highContrast": "#b2b2b2",
+          "highContrastLight": "#b2b2b2"
+        },
+        "description": "Grey70"
+      },
+      {
+        "id": "foldercustomization.AnsiColor250",
+        "defaults": {
+          "dark": "#bcbcbc",
+          "light": "#bcbcbc",
+          "highContrast": "#bcbcbc",
+          "highContrastLight": "#bcbcbc"
+        },
+        "description": "Grey74"
+      },
+      {
+        "id": "foldercustomization.AnsiColor251",
+        "defaults": {
+          "dark": "#c6c6c6",
+          "light": "#c6c6c6",
+          "highContrast": "#c6c6c6",
+          "highContrastLight": "#c6c6c6"
+        },
+        "description": "Grey78"
+      },
+      {
+        "id": "foldercustomization.AnsiColor252",
+        "defaults": {
+          "dark": "#d0d0d0",
+          "light": "#d0d0d0",
+          "highContrast": "#d0d0d0",
+          "highContrastLight": "#d0d0d0"
+        },
+        "description": "Grey82"
+      },
+      {
+        "id": "foldercustomization.AnsiColor253",
+        "defaults": {
+          "dark": "#dadada",
+          "light": "#dadada",
+          "highContrast": "#dadada",
+          "highContrastLight": "#dadada"
+        },
+        "description": "Grey85"
+      },
+      {
+        "id": "foldercustomization.AnsiColor254",
+        "defaults": {
+          "dark": "#e4e4e4",
+          "light": "#e4e4e4",
+          "highContrast": "#e4e4e4",
+          "highContrastLight": "#e4e4e4"
+        },
+        "description": "Grey89"
+      },
+      {
+        "id": "foldercustomization.AnsiColor255",
+        "defaults": {
+          "dark": "#eeeeee",
+          "light": "#eeeeee",
+          "highContrast": "#eeeeee",
+          "highContrastLight": "#eeeeee"
+        },
+        "description": "Grey93"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "build": "npm run clean && npm run check-types && npm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src --ext ts",
+    "lint:fix": "eslint src --ext ts --fix",
+    "test": "vscode-test",
+    "clean": "rimraf dist",
+    "generate-icons": "ts-node ./scripts/generate_icons.ts",
+    "package": "npx @vscode/vsce package -o folder-customization.vsix",
+    "prettier:check": "prettier --check .",
+    "prettier:write": "prettier --write ."
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.92.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "@vscode/test-cli": "^0.0.9",
+    "@vscode/test-electron": "^2.4.0",
+    "esbuild": "^0.21.5",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "sharp": "^0.33.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "emojilib": "^3.0.12"
+  }
+}
