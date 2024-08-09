@@ -3,7 +3,7 @@
   "displayName": "Folder Customization",
   "publisher": "j3lte",
   "description": "Customize your folder and subfolders based on a specific path. Set a color, text badge, emoji badge or tooltip for any folder in your workspace.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "icon": "resources/images/icon.png",
   "galleryBanner": {
