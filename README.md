@@ -6,14 +6,21 @@ This extension allows you to customize your folders in your workspace settings, 
 
 ## Features
 
+Right click on a folder in the Explorer view and select `Folder Customization` to open the context menu.
 ![Folder Customization](https://i.imgur.com/KI9Yk2q.png)
+
+Select an emoji badge for a folder.
 ![Folder Customization](https://i.imgur.com/3ZjRzAj.png)
+
+Select a color for a folder.
 ![Folder Customization](https://i.imgur.com/Lm5WoDl.png)
 
-- Customize the color of a folder (256 ANSI Colors)
-- Set a text badge for a folder
-- Set an emjoi as text badge for a folder
-- Set a tooltip for a folder
+| **Features**                                      |
+| ------------------------------------------------- |
+| Customize the color of a folder (256 ANSI Colors) |
+| Set a text badge for a folder                     |
+| Set an emoji as text badge for a folder           |
+| Set a tooltip for a folder                        |
 
 ## Requirements
 
@@ -38,10 +45,13 @@ This extension does not have any additional requirements. Internally it uses the
 ## Extension Settings
 
 This extension wlll save the configuration for every folder in `folder-customization.folders` in your workspace settings. This has the following keys:
-- `path` - Path of the folder
-- `color` - Color of the folder (`foldercustomization.AnsiColor0-255`) (optional)
-- `badge` - Badge text of the folder (optional)
-- `tooltip` - Tooltip of the folder (optional)
+
+| Key       | Description                                                             |
+| --------- | ----------------------------------------------------------------------- |
+| `path`    | Path of the folder                                                      |
+| `color`   | Color of the folder (`foldercustomization.AnsiColor0-255`) _(optional)_ |
+| `badge`   | Badge text of the folder _(optional)_                                   |
+| `tooltip` | Tooltip of the folder _(optional)_                                      |
 
 > These settings don't have to set by hand, you can use the context menu (see **Usage**) in the Explorer view to set these settings per folder.
 
