@@ -4,9 +4,7 @@
 <div align="center">
 <img src="https://github.com/j3lte/vscode-folder-customization/raw/main/assets/recording.gif" alt="Recording" />
 </div>
-
 <div align="center"><br />This extension allows you to customize your folders in your workspace settings, by setting a color, badge (text or emoji) and tooltip. This is visible in the Explorer view and the tabs.</div>
-
 <br/>
 
 
