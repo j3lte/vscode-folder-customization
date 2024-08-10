@@ -12,17 +12,17 @@
 
 Right click on a folder in the Explorer view and select `Folder Customization` to open the context menu.<br />
 
-![Folder Customization](https://i.imgur.com/KI9Yk2q.png)
+![Folder Customization](https://github.com/j3lte/vscode-folder-customization/raw/main/assets/screenshots/screenshot-2.png)
 
 Select an emoji badge for a folder.
 <br />
 
-![Folder Customization](https://i.imgur.com/3ZjRzAj.png)
+![Folder Customization](https://github.com/j3lte/vscode-folder-customization/raw/main/assets/screenshots/screenshot-3.png)
 
 Select a color for a folder.
 <br />
 
-![Folder Customization](https://i.imgur.com/Lm5WoDl.png)
+![Folder Customization](https://github.com/j3lte/vscode-folder-customization/raw/main/assets/screenshots/screenshot-4.png)
 
 | **Features**                                      |
 | ------------------------------------------------- |
