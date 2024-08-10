@@ -3,39 +3,62 @@ import type { ExtensionFolder, ExtensionFolderInput } from "@/types";
 import type { FolderCustomizationProvider } from "@/tools/folder-customization-provider";
 import { getExtensionWithOptionalName } from "@/utils";
 
-export const updateConfig = (
-  pathInput: Partial<ExtensionFolderInput>,
-  { toRemove = false, provider }: { toRemove?: boolean; provider: FolderCustomizationProvider },
-) => {
+const getConfigAndFolders = () => {
   const config = workspace.getConfiguration(getExtensionWithOptionalName());
   const folders = [...((config.get("folders") as ExtensionFolder[]) || [])];
+  return { config, folders };
+};
 
-  const existingPath = folders?.find((item) => item.path === pathInput.path);
+export const updateConfigForAll = (
+  input: Array<Partial<ExtensionFolderInput>>,
+  { toRemove = false, provider }: { toRemove?: boolean; provider: FolderCustomizationProvider },
+) => {
+  const { config, folders } = getConfigAndFolders();
+  let fireOnChange = false;
 
-  if (toRemove && existingPath) {
-    const index = folders.indexOf(existingPath);
-    folders.splice(index, 1);
-    config.update("folders", folders);
-  } else if (existingPath) {
-    existingPath.color = pathInput.color === null ? undefined : pathInput.color || existingPath.color;
-    existingPath.badge = pathInput.badge === null ? undefined : pathInput.badge || existingPath.badge;
-    existingPath.tooltip = pathInput.tooltip === null ? undefined : pathInput.tooltip || existingPath.tooltip;
+  const inputPaths = input.map((item) => item.path);
+  const existingFolders = folders.filter((item) => inputPaths.includes(item.path));
+  const newFolders = input.filter((item) => !existingFolders.find((existing) => existing.path === item.path));
+
+  if (toRemove && existingFolders.length > 0) {
+    existingFolders.forEach((existingPath) => {
+      const index = folders.indexOf(existingPath);
+      folders.splice(index, 1);
+    });
+    fireOnChange = true;
     config.update("folders", folders);
   } else {
-    const input: Partial<ExtensionFolder> = {
-      path: pathInput.path,
-    };
-    if (pathInput.color) {
-      input.color = pathInput.color;
-    }
-    if (pathInput.badge) {
-      input.badge = pathInput.badge;
-    }
-    if (pathInput.tooltip) {
-      input.tooltip = pathInput.tooltip;
-    }
-    config.update("folders", [...folders, pathInput]);
+    existingFolders.forEach((existingFolder) => {
+      const inputItem = input.find((item) => item.path === existingFolder.path);
+      if (inputItem) {
+        fireOnChange = true;
+        existingFolder.color = inputItem.color === null ? undefined : inputItem.color || existingFolder.color;
+        existingFolder.badge = inputItem.badge === null ? undefined : inputItem.badge || existingFolder.badge;
+        existingFolder.tooltip = inputItem.tooltip === null ? undefined : inputItem.tooltip || existingFolder.tooltip;
+      }
+    });
+    newFolders.forEach((newFolder) => {
+      if (newFolder.path) {
+        fireOnChange = true;
+        const input: ExtensionFolder = {
+          path: newFolder.path,
+        };
+        if (newFolder.color) {
+          input.color = newFolder.color;
+        }
+        if (newFolder.badge) {
+          input.badge = newFolder.badge;
+        }
+        if (newFolder.tooltip) {
+          input.tooltip = newFolder.tooltip;
+        }
+        folders.push(input);
+      }
+    });
+    config.update("folders", folders);
   }
 
-  provider.fireOnChange();
+  if (fireOnChange) {
+    provider.fireOnChange();
+  }
 };

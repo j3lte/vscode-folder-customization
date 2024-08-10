@@ -27,6 +27,8 @@ export interface GitRepository {
   };
 }
 
+export type CommandCTX = { fsPath: string; path: string; query: string; scheme: string };
+
 export const enum GitStatus {
   INDEX_MODIFIED,
   INDEX_ADDED,
