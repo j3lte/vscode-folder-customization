@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 > Nothing at the moment
 
+## 0.1.2 - (2024-08-10)
+
+- Bugfix: Fixed issue where badge/tooltip are not shown from parent folders
+
 ## 0.1.1 - (2024-08-09)
 
 - Updated README, better documentation

@@ -84,17 +84,21 @@ export class FolderCustomizationProvider implements FileDecorationProvider {
       .sort((a, b) => b.path.length - a.path.length);
 
     const firstMatchWithColor = matchFolders.find((folder) => folder.color);
+    const firstMatchWithBadge = matchFolders.find((folder) => folder.badge);
+    const firstMatchWithTooltip = matchFolders.find((folder) => folder.tooltip);
+
     const firstMatch = matchFolders[0];
 
     if (firstMatch) {
-      // We find the color from the first match with a color
       const color = firstMatch.color && !isUriChanged ? firstMatch.color : undefined;
-      // We might have a color up the tree (parent)
-      const possibleColor = firstMatchWithColor?.color;
-      // We set the color to either the first match or the possible color, if the uri has not changed (git)
-      const fileDecorationColor = !isUriChanged ? color || possibleColor : undefined;
+      const fileDecorationColor = !isUriChanged ? color || firstMatchWithColor?.color : undefined;
       const themeColor = fileDecorationColor ? new ThemeColor(fileDecorationColor) : undefined;
-      return new FileDecoration(firstMatch.badge, firstMatch.tooltip, themeColor);
+
+      return new FileDecoration(
+        firstMatch.badge || firstMatchWithBadge?.badge,
+        firstMatch.tooltip || firstMatchWithTooltip?.tooltip,
+        themeColor,
+      );
     }
 
     return undefined;
