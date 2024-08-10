@@ -43,9 +43,15 @@
     "configuration": {
       "title": "Folder Customization",
       "properties": {
+        "folder-customization.colorChangedFolders": {
+          "title": "Color Changed Folders",
+          "type": "boolean",
+          "description": "Ignore any color customizations set by the IDE when in a Git repository",
+          "default": false
+        },
         "folder-customization.folders": {
           "type": "array",
-          "description": "Custom folders",
+          "title": "Folders",
           "items": {
             "type": "object",
             "properties": {

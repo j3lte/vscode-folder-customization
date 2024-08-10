@@ -66,6 +66,7 @@ export interface GitRepositoryState {
   workingTreeChanges?: Change[];
   indexChanges?: Change[];
   untrackedChanges?: Change[];
+  untrackedTreeChanges?: Change[];
   onDidChange: (listener: () => void) => void;
 }
 

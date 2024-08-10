@@ -1,6 +1,6 @@
 import type { Event, FileDecorationProvider, ProviderResult, Uri } from "vscode";
 import { EventEmitter, FileDecoration, ThemeColor, extensions, workspace } from "vscode";
-import type { ExtensionFolder, GitAPIState, GitRepository } from "@/types";
+import type { Change, ExtensionFolder, GitAPIState, GitRepository } from "@/types";
 import { cleanPath, getExtensionWithOptionalName } from "@/utils";
 
 const GIT_EXTENSION_ID = "vscode.git";
@@ -31,13 +31,39 @@ export class FolderCustomizationProvider implements FileDecorationProvider {
 
       if (activeGitExtension) {
         this._gitAPI = activeGitExtension.getAPI(GIT_API_VERSION);
-        this._gitAPI!.repositories?.forEach((repo) => {
+
+        this._gitAPI?.onDidChangeState(() => {
+          this.fireOnChange();
+        });
+        this._gitAPI?.onDidOpenRepository((repo) => {
           repo.state.onDidChange(() => {
             this.fireOnChange();
           });
+          this.fireOnChange();
         });
+        this._gitAPI?.onDidCloseRepository(() => {
+          this.fireOnChange();
+        });
+
+        this.fireOnChange();
       }
     }
+  }
+
+  private getAllGitChanges(): Change[] {
+    if (this._gitAPI && this._gitAPI.repositories && this._gitAPI.repositories.length > 0) {
+      return this._gitAPI.repositories.reduce((acc, repo) => {
+        return [
+          ...acc,
+          ...(repo.state.workingTreeChanges || []),
+          ...(repo.state.untrackedChanges || []),
+          ...(repo.state.untrackedTreeChanges || []),
+          ...(repo.state.indexChanges || []),
+          ...(repo.state.mergeChanges || []),
+        ];
+      }, [] as Change[]);
+    }
+    return [];
   }
 
   public fireOnChange() {
@@ -48,35 +74,47 @@ export class FolderCustomizationProvider implements FileDecorationProvider {
     this.initializeGitAPI();
 
     workspace.onDidChangeConfiguration((e) => {
-      if (e.affectsConfiguration(getExtensionWithOptionalName("folders"))) {
+      if (
+        e.affectsConfiguration(getExtensionWithOptionalName("folders")) ||
+        e.affectsConfiguration(getExtensionWithOptionalName("colorChangedFolders"))
+      ) {
         this.fireOnChange();
       }
     });
   }
 
-  private isUriChanged(uri: Uri): boolean {
-    if (this._gitAPI && this._gitAPI.repositories && this._gitAPI.repositories.length > 0) {
-      const changeIncluded = this._gitAPI.repositories.find((repo) => {
-        return [
-          ...(repo.state.workingTreeChanges || []),
-          ...(repo.state.untrackedChanges || []),
-          ...(repo.state.indexChanges || []),
-          ...(repo.state.mergeChanges || []),
-        ].find(
-          (change) =>
-            change.uri.path === uri.path || change.originalUri.path === uri.path || change.renameUri?.path === uri.path,
-        );
-      });
-      return typeof changeIncluded !== "undefined";
+  /**
+   * @param uri {Uri} Location of the file or folder
+   * @param ignore {boolean} Whether to ignore this and always return false
+   * @returns {boolean} Whether the file or folder has been changed
+   */
+  private isUriChanged(uri: Uri, ignore?: boolean): boolean {
+    if (ignore) {
+      return false;
     }
-    return false;
+    const changes = this.getAllGitChanges();
+
+    return changes.length === 0
+      ? false
+      : changes.some((change) => {
+          return (
+            change.uri.path === uri.path ||
+            change.uri.path.includes(uri.path) ||
+            (change.originalUri &&
+              (change.originalUri.path === uri.path || change.originalUri.path.includes(uri.path))) ||
+            (change.renameUri && (change.renameUri.path === uri.path || change.renameUri.path.includes(uri.path)))
+          );
+        });
   }
 
   provideFileDecoration(uri: Uri): ProviderResult<FileDecoration> {
     const folders =
       workspace.getConfiguration(getExtensionWithOptionalName()).get<Array<ExtensionFolder>>("folders") || [];
+    const ignoreChangedFiles = workspace
+      .getConfiguration(getExtensionWithOptionalName())
+      .get<boolean>("colorChangedFolders");
 
-    const isUriChanged = this.isUriChanged(uri);
+    const isUriChanged = this.isUriChanged(uri, ignoreChangedFiles);
     const projectPath = cleanPath(uri.fsPath);
 
     const matchFolders = folders
@@ -98,11 +136,13 @@ export class FolderCustomizationProvider implements FileDecorationProvider {
       const badge = firstMatch.badge || firstMatchWithBadge?.badge;
       const tooltip = firstMatch.tooltip || firstMatchWithTooltip?.tooltip;
 
-      return new FileDecoration(
+      const decoration = new FileDecoration(
         badge && badge !== "__blocked__" && badge.length > 0 && badge.length <= 2 ? badge : undefined,
         tooltip && tooltip !== "__blocked__" ? tooltip : undefined,
         themeColor,
       );
+
+      return decoration;
     }
 
     return undefined;

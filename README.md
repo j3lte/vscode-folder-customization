@@ -55,6 +55,8 @@ This extension does not have any additional requirements. Internally it uses the
 
 ## Extension Settings
 
+### Folders
+
 This extension wlll save the configuration for every folder in `folder-customization.folders` in your workspace settings. This has the following keys:
 
 | Key       | Description                                                             |
@@ -66,6 +68,10 @@ This extension wlll save the configuration for every folder in `folder-customiza
 
 > These settings don't have to set by hand, you can use the context menu (see **Usage**) in the Explorer view to set these settings per folder.
 > Note: When `color` or `badge` is set as `"__blocked__"`, it means it will block the parent folder from setting a color, or badge. This doesn't work for `tooltip`.
+
+### Other settings
+
+- `folder-customization.colorChangedFolders` - _Color changed folders in the Explorer view._ (default: `false`)
 
 ## Release notes
 
