@@ -178,8 +178,8 @@
         "category": "Folder Customization"
       },
       {
-        "command": "folder-customization.blockTooltip",
-        "title": "Block Tooltip",
+        "command": "folder-customization.clearTooltip",
+        "title": "Clear Tooltip",
         "category": "Folder Customization"
       },
       {
