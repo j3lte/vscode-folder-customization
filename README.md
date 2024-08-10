@@ -42,14 +42,14 @@ This extension does not have any additional requirements. Internally it uses the
 | Command                           | Description                                                                                                                            |
 | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | `Set Color`                       | _Set the color of the folder. This will colorize the folder (and all subfolders) in the Explorer view and the tabs (name)._            |
-| `Clear Folder Color`              | _Clear the color of the folder while keeping the badge and tooltip._                                                                   |
-| `Set Folder Text Badge`           | _Set a text badge for the folder. This will show next to the name of a file/folder. Note that a Text Badge can only be **2** letters._ |
-| `Set Folder Emoji Badge`          | _Set an emoji badge for the folder. This will show next to the name of a file/folder._                                                 |
-| `Clear Folder Badge`              | _Clear the badge of the folder while keeping the color and tooltip._                                                                   |
-| `Set Folder Tooltip`              | _Set a tooltip for the folder. This will show when hovering over a file/folder in the Explorer view._                                  |
-| `Clear Folder Tooltip`            | _Clear the tooltip of the folder while keeping the color and badge._                                                                   |
-| `Block: Folder Color`             | _Block the parent folder from setting a color._                                                                                        |
-| `Block: Folder Badge`             | _Block the parent folder from setting a badge._                                                                                        |
+| `Clear Color`                     | _Clear the color of the folder while keeping the badge and tooltip._                                                                   |
+| `Set Text Badge`                  | _Set a text badge for the folder. This will show next to the name of a file/folder. Note that a Text Badge can only be **2** letters._ |
+| `Set Emoji Badge`                 | _Set an emoji badge for the folder. This will show next to the name of a file/folder._                                                 |
+| `Clear Badge`                     | _Clear the badge of the folder while keeping the color and tooltip._                                                                   |
+| `Set Tooltip`                     | _Set a tooltip for the folder. This will show when hovering over a file/folder in the Explorer view._                                  |
+| `Clear Tooltip`                   | _Clear the tooltip of the folder while keeping the color and badge._                                                                   |
+| `Block Color`                     | _Block the parent folder from setting a color._                                                                                        |
+| `Block Badge`                     | _Block the parent folder from setting a badge._                                                                                        |
 | `Clear All Folder Customizations` | _Clear all customizations of the folder._                                                                                              |
 | `Reset Workspace`                 | _Clear all customizations of all folders in the workspace._                                                                            |
 
@@ -65,7 +65,7 @@ This extension wlll save the configuration for every folder in `folder-customiza
 | `tooltip` | Tooltip of the folder _(optional)_                                      |
 
 > These settings don't have to set by hand, you can use the context menu (see **Usage**) in the Explorer view to set these settings per folder.
-> Note: When `color`, `badge` or `tooltip` is set as `"__blocked__"`, it means it will block the parent folder from setting a color, badge or tooltip.
+> Note: When `color` or `badge` is set as `"__blocked__"`, it means it will block the parent folder from setting a color, or badge. This doesn't work for `tooltip`.
 
 ## Release notes
 

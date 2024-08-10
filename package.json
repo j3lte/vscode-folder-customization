@@ -139,47 +139,47 @@
     "commands": [
       {
         "command": "folder-customization.setColor",
-        "title": "Set Folder Color",
+        "title": "Set Color",
         "category": "Folder Customization"
       },
       {
         "command": "folder-customization.blockColor",
-        "title": "Block: Folder Color",
+        "title": "Block Color",
         "category": "Folder Customization"
       },
       {
         "command": "folder-customization.clearColor",
-        "title": "Clear Folder Color",
+        "title": "Clear Color",
         "category": "Folder Customization"
       },
       {
         "command": "folder-customization.setTextBadge",
-        "title": "Set Folder Text Badge",
+        "title": "Set Text Badge",
         "category": "Folder Customization"
       },
       {
         "command": "folder-customization.setEmojiBadge",
-        "title": "Set Folder Emoji Badge",
+        "title": "Set Emoji Badge",
         "category": "Folder Customization"
       },
       {
         "command": "folder-customization.blockBadge",
-        "title": "Block: Folder Badge",
+        "title": "Block Badge",
         "category": "Folder Customization"
       },
       {
         "command": "folder-customization.clearBadge",
-        "title": "Clear Folder Badge",
+        "title": "Clear Badge",
         "category": "Folder Customization"
       },
       {
         "command": "folder-customization.setTooltip",
-        "title": "Set Folder Tooltip",
+        "title": "Set Tooltip",
         "category": "Folder Customization"
       },
       {
-        "command": "folder-customization.clearTooltip",
-        "title": "Clear Folder Tooltip",
+        "command": "folder-customization.blockTooltip",
+        "title": "Block Tooltip",
         "category": "Folder Customization"
       },
       {
