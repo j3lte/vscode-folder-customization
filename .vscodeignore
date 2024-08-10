@@ -15,3 +15,5 @@ vsc-extension-quickstart.md
 scripts/**
 assets/**
 .github/**
+.gitkeep
+.prettierignore
