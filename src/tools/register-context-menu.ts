@@ -1,22 +1,34 @@
 import type { ExtensionContext } from "vscode";
+import {
+  blockBadge,
+  blockColor,
+  clearBadge,
+  clearColor,
+  clearCustomization,
+  clearTooltip,
+} from "@/tools/contextMenu/noInteraction";
+import resetWorkspace from "@/tools/contextMenu/resetWorkspace";
+import setColor from "@/tools/contextMenu/setColor";
+import setEmojiBadge from "@/tools/contextMenu/setEmojiBadge";
+import setTextBadge from "@/tools/contextMenu/setTextBadge";
+import setTooltip from "@/tools/contextMenu/setTooltip";
 import type { FolderCustomizationProvider } from "@/tools/folder-customization-provider";
-import { clearBadge, clearColor, clearCustomization, clearTooltip } from "./contextMenu/clear";
-import resetWorkspace from "./contextMenu/resetWorkspace";
-import setColor from "./contextMenu/setColor";
-import setEmojiBadge from "./contextMenu/setEmojiBadge";
-import setTextBadge from "./contextMenu/setTextBadge";
-import setTooltip from "./contextMenu/setTooltip";
 
 export const registerContextMenu = async (context: ExtensionContext, provider: FolderCustomizationProvider) => {
   context.subscriptions.push(
     setColor(provider, context),
+    clearColor(provider),
+    blockColor(provider),
+
     setTextBadge(provider),
     setEmojiBadge(provider),
-    setTooltip(provider),
+    blockBadge(provider),
     clearBadge(provider),
-    clearColor(provider),
-    clearCustomization(provider),
+
+    setTooltip(provider),
     clearTooltip(provider),
+
+    clearCustomization(provider),
     resetWorkspace(provider),
   );
 };

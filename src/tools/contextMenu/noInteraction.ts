@@ -9,7 +9,7 @@ import { cleanPath, getExtensionWithOptionalName } from "@/utils";
 /**
  * Simple function to clear a customization
  */
-const clearCommand = (
+const noInteractionCommand = (
   provider: FolderCustomizationProvider,
   commandName: string,
   input: Omit<Partial<ExtensionFolderInput>, "path">,
@@ -31,13 +31,19 @@ const clearCommand = (
   });
 
 export const clearColor = (provider: FolderCustomizationProvider) =>
-  clearCommand(provider, "clearColor", { color: null });
+  noInteractionCommand(provider, "clearColor", { color: null });
+
+export const blockColor = (provider: FolderCustomizationProvider) =>
+  noInteractionCommand(provider, "blockColor", { color: "__blocked__" });
 
 export const clearBadge = (provider: FolderCustomizationProvider) =>
-  clearCommand(provider, "clearBadge", { badge: null });
+  noInteractionCommand(provider, "clearBadge", { badge: null });
+
+export const blockBadge = (provider: FolderCustomizationProvider) =>
+  noInteractionCommand(provider, "blockBadge", { badge: "__blocked__" });
 
 export const clearTooltip = (provider: FolderCustomizationProvider) =>
-  clearCommand(provider, "clearTooltip", { tooltip: null });
+  noInteractionCommand(provider, "clearTooltip", { tooltip: null });
 
 export const clearCustomization = (provider: FolderCustomizationProvider) =>
-  clearCommand(provider, "clearCustomization", {}, true);
+  noInteractionCommand(provider, "clearCustomization", {}, true);

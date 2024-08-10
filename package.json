@@ -96,7 +96,7 @@
         },
         {
           "command": "folder-customization.clearColor",
-          "group": "folderCustomization1@2"
+          "group": "folderCustomization1@3"
         },
         {
           "command": "folder-customization.setTextBadge",
@@ -108,7 +108,7 @@
         },
         {
           "command": "folder-customization.clearBadge",
-          "group": "folderCustomization2@3"
+          "group": "folderCustomization2@4"
         },
         {
           "command": "folder-customization.setTooltip",
@@ -119,12 +119,20 @@
           "group": "folderCustomization3@2"
         },
         {
-          "command": "folder-customization.clearCustomization",
+          "command": "folder-customization.blockColor",
           "group": "folderCustomization4@1"
         },
         {
-          "command": "folder-customization.resetWorkspace",
+          "command": "folder-customization.blockBadge",
+          "group": "folderCustomization4@2"
+        },
+        {
+          "command": "folder-customization.clearCustomization",
           "group": "folderCustomization5@1"
+        },
+        {
+          "command": "folder-customization.resetWorkspace",
+          "group": "folderCustomization5@2"
         }
       ]
     },
@@ -132,6 +140,11 @@
       {
         "command": "folder-customization.setColor",
         "title": "Set Folder Color",
+        "category": "Folder Customization"
+      },
+      {
+        "command": "folder-customization.blockColor",
+        "title": "Block: Folder Color",
         "category": "Folder Customization"
       },
       {
@@ -147,6 +160,11 @@
       {
         "command": "folder-customization.setEmojiBadge",
         "title": "Set Folder Emoji Badge",
+        "category": "Folder Customization"
+      },
+      {
+        "command": "folder-customization.blockBadge",
+        "title": "Block: Folder Badge",
         "category": "Folder Customization"
       },
       {

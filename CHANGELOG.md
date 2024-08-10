@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 > Nothing at the moment
 
+## 0.2.0 - (2024-08-10)
+
+- Added option to block color/badge/tooltip from parent folders
+- Bugfix: Issue where only 1 folder could be customized, now it supports multi selection
+- Bugfix: Filtering files from the selection
+
 ## 0.1.2 - (2024-08-10)
 
 - Bugfix: Fixed issue where badge/tooltip are not shown from parent folders

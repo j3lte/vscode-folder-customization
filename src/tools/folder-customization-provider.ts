@@ -92,11 +92,15 @@ export class FolderCustomizationProvider implements FileDecorationProvider {
     if (firstMatch) {
       const color = firstMatch.color && !isUriChanged ? firstMatch.color : undefined;
       const fileDecorationColor = !isUriChanged ? color || firstMatchWithColor?.color : undefined;
-      const themeColor = fileDecorationColor ? new ThemeColor(fileDecorationColor) : undefined;
+      const themeColor =
+        fileDecorationColor && fileDecorationColor !== "__blocked__" ? new ThemeColor(fileDecorationColor) : undefined;
+
+      const badge = firstMatch.badge || firstMatchWithBadge?.badge;
+      const tooltip = firstMatch.tooltip || firstMatchWithTooltip?.tooltip;
 
       return new FileDecoration(
-        firstMatch.badge || firstMatchWithBadge?.badge,
-        firstMatch.tooltip || firstMatchWithTooltip?.tooltip,
+        badge && badge !== "__blocked__" && badge.length > 0 && badge.length <= 2 ? badge : undefined,
+        tooltip && tooltip !== "__blocked__" ? tooltip : undefined,
         themeColor,
       );
     }
