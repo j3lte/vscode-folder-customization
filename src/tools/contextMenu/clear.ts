@@ -1,6 +1,8 @@
+import type { Uri } from "vscode";
 import { commands } from "vscode";
-import type { CommandCTX, ExtensionFolderInput } from "@/types";
+import type { ExtensionFolderInput } from "@/types";
 import { updateConfigForAll } from "@/utils/config";
+import { filterFolders } from "@/utils/fs";
 import type { FolderCustomizationProvider } from "@/tools/folder-customization-provider";
 import { cleanPath, getExtensionWithOptionalName } from "@/utils";
 
@@ -13,11 +15,16 @@ const clearCommand = (
   input: Omit<Partial<ExtensionFolderInput>, "path">,
   toRemove?: boolean,
 ) =>
-  commands.registerCommand(getExtensionWithOptionalName(commandName), (_, ctxs: Array<CommandCTX>) => {
+  commands.registerCommand(getExtensionWithOptionalName(commandName), async (_, uris: Array<Uri>) => {
+    const filtered = await filterFolders(uris);
+    if (!filtered.length) {
+      return;
+    }
+
     updateConfigForAll(
-      ctxs.map((ctx) => ({
+      filtered.map((uri) => ({
         ...input,
-        path: cleanPath(ctx.fsPath),
+        path: cleanPath(uri.fsPath),
       })),
       { provider, toRemove },
     );
