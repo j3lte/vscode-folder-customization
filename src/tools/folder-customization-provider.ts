@@ -1,5 +1,5 @@
-import type { Event, FileDecorationProvider, ProviderResult, Uri } from "vscode";
-import { EventEmitter, FileDecoration, ThemeColor, extensions, workspace } from "vscode";
+import type { Event, ExtensionContext, FileDecorationProvider, ProviderResult, Uri } from "vscode";
+import { EventEmitter, FileDecoration, ThemeColor, extensions, window, workspace } from "vscode";
 import type { Change, ExtensionFolder, GitAPIState, GitRepository } from "@/types";
 import { cleanPath, getExtensionWithOptionalName } from "@/utils";
 
@@ -107,7 +107,7 @@ export class FolderCustomizationProvider implements FileDecorationProvider {
         });
   }
 
-  provideFileDecoration(uri: Uri): ProviderResult<FileDecoration> {
+  public getDecorationValue(uri: Uri): { color?: ThemeColor; badge?: string; tooltip?: string } | null {
     const folders =
       workspace.getConfiguration(getExtensionWithOptionalName()).get<Array<ExtensionFolder>>("folders") || [];
     const ignoreChangedFiles = workspace
@@ -136,15 +136,33 @@ export class FolderCustomizationProvider implements FileDecorationProvider {
       const badge = firstMatch.badge || firstMatchWithBadge?.badge;
       const tooltip = firstMatch.tooltip || firstMatchWithTooltip?.tooltip;
 
-      const decoration = new FileDecoration(
-        badge && badge !== "__blocked__" && badge.length > 0 && badge.length <= 2 ? badge : undefined,
-        tooltip && tooltip !== "__blocked__" ? tooltip : undefined,
-        themeColor,
-      );
-
-      return decoration;
+      return {
+        badge: badge && badge !== "__blocked__" && badge.length > 0 && badge.length <= 2 ? badge : undefined,
+        tooltip: tooltip && tooltip !== "__blocked__" ? tooltip : undefined,
+        color: themeColor,
+      };
     }
 
+    return null;
+  }
+
+  provideFileDecoration(uri: Uri): ProviderResult<FileDecoration> {
+    const decoration = this.getDecorationValue(uri);
+
+    if (decoration !== null) {
+      return new FileDecoration(decoration.badge, decoration.tooltip, decoration.color);
+    }
     return undefined;
   }
 }
+
+export const registerFileDecorationProvider = (context: ExtensionContext) => {
+  const provider = new FolderCustomizationProvider();
+  const disposable = window.registerFileDecorationProvider(provider);
+  context.subscriptions.push(disposable);
+
+  return {
+    provider,
+    disposable,
+  };
+};

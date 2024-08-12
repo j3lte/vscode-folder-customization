@@ -15,7 +15,7 @@ import setTooltip from "@/tools/contextMenu/setTooltip";
 import type { FolderCustomizationProvider } from "@/tools/folder-customization-provider";
 
 export const registerContextMenu = async (context: ExtensionContext, provider: FolderCustomizationProvider) => {
-  context.subscriptions.push(
+  const disposables = [
     setColor(provider, context),
     clearColor(provider),
     blockColor(provider),
@@ -30,5 +30,7 @@ export const registerContextMenu = async (context: ExtensionContext, provider: F
 
     clearCustomization(provider),
     resetWorkspace(provider),
-  );
+  ];
+  context.subscriptions.push(...disposables);
+  return disposables;
 };
